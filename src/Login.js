@@ -1,23 +1,56 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
-export default class Login extends Component{
 
+import {connect} from 'react-redux'
+import api from'./api'
+function mapStatetoProps(state) {
+  return ({
+    user: state.user
+  })
+}
+function mapDispatchToProps(dispatch){
+  return {
+    login: (email,password)=>{
+      dispatch({
+        type:'FETCHING_USER',
+        email: email,
+        password:password
+      })
+    },
+    loggedInSuccess:(authToken)=>{
+      dispatch({
+        type:'FETCHED_USER',
+        authToken: authToken
+      })
+    },
+    loginDenied:(errors)=>{
+      dispatch({
+        type:'FETCHING_USER_ERROR',
+        errors:errors
+      })
+    }
+  }
+}
+
+
+
+class Login extends Component{
+  login(e){
+    e.preventDefault()
+    this.props.login(document.getElementById('email').value,document.getElementById('password').value)
+    api.login(this.username,this.password)
+      .then(response=>{
+        if(response.status==200){
+          this.props.loggedInSuccess(response.headers.map['x-auth'])
+          this.props.history.push('/Home')
+        } else {
+          this.props.loginDenied(['Wrong username or password'])
+        }
+      })
+  }
   render(){
     return(
-      // <div className="container">
-      //   <div className="login-container">
-      //   <div id="output"></div>
-      //     <div className="avatar"></div>
-      //     <div className="form-box">
-      //         <form action="" method="">
-      //             <input name="user" type="text" placeholder="username"/>
-      //             <input type="password" placeholder="password"/>
-      //             <button className="btn btn-info btn-block login" type="submit">Login</button>
-      //         </form>
-      //       </div>
-      //     </div>
-      //   </div>
-      <form  style={{width:'300px', margin: '1em auto'}}>
+      <form  onSubmit={this.login.bind(this)} style={{width:'300px', margin: '1em auto'}}>
         <div className="form-group">
           <label for="exampleInputEmail1">Email address</label>
           <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
@@ -39,3 +72,4 @@ export default class Login extends Component{
 
 
 }
+export default connect(mapStatetoProps,mapDispatchToProps)(Login);

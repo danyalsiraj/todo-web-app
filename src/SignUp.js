@@ -4,7 +4,6 @@ export default class SignUp extends Component{
 
   render(){
     return(
-
       <form  style={{width:'300px', margin: '1em auto'}}>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
