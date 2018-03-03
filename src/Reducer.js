@@ -2,14 +2,14 @@ import {createStore,applyMiddleware,combineReducers} from 'redux'
 import {createLogger} from 'redux-logger'
 const defaultState={
   todos:[
-    {
-      id:'',
-      task:'first task'
-    },
-    {
-      id:'',
-      task:'second task'
-    }
+    // {
+    //   id:'',
+    //   task:'first task'
+    // },
+    // {
+    //   id:'',
+    //   task:'second task'
+    // }
   ],
   fetched:false,
   isFetching:true,

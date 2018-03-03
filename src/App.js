@@ -16,15 +16,21 @@ class App extends Component {
 
   }
   render() {
-    let isLoggedIn = true
+    let isLoggedIn = store.getState().user.authToken ? true : false
+
+    console.log(isLoggedIn)
     return (
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-              <Route path="/SignUp" component={SignUp}/>
-              <Route path="/AddNewTodo" component={NewTodoForm}/>
-              <Route path="/Home" component={Todolist}/>
-            <Route path="/" component={Login}/>
+
+                <Route path="/AddNewTodo" component={NewTodoForm}/>
+                <Route path="/Home" component={Todolist}/>
+
+                <Route path="/" component={Login}/>
+                <Route path="/SignUp" component={SignUp}/>
+            
+
           </Switch>
         </BrowserRouter>
 

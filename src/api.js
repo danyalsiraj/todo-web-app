@@ -1,7 +1,7 @@
 
 const domainName='https://quiet-atoll-28125.herokuapp.com'
 function login(email,password){
-  console.log(`making request with ${email} ${password}`)
+  console.log(`making request withv ${email} ${password}`)
   return fetch(`${domainName}/login`
   ,{
     method:'POST',

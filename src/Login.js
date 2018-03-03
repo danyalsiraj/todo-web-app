@@ -37,11 +37,14 @@ function mapDispatchToProps(dispatch){
 class Login extends Component{
   login(e){
     e.preventDefault()
-    this.props.login(document.getElementById('email').value,document.getElementById('password').value)
-    api.login(this.username,this.password)
+    let email= document.getElementById('email').value
+    let password=document.getElementById('password').value
+    console.log(email);
+    this.props.login(email,password)
+    api.login(email,password)
       .then(response=>{
         if(response.status==200){
-          this.props.loggedInSuccess(response.headers.map['x-auth'])
+          this.props.loggedInSuccess(response.headers.get('X-Auth'))
           this.props.history.push('/Home')
         } else {
           this.props.loginDenied(['Wrong username or password'])
@@ -53,11 +56,11 @@ class Login extends Component{
       <form  onSubmit={this.login.bind(this)} style={{width:'300px', margin: '1em auto'}}>
         <div className="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
+          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" value="d1@gmail.com" placeholder="Enter email"/>
         </div>
         <div className="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Password"/>
+          <input type="password" className="form-control" id="password" value="danyal100" placeholder="Password"/>
         </div>
         <div className="form-check">
           <input type="checkbox" className="form-check-input" id="rememberMe"/>
