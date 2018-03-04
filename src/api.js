@@ -23,6 +23,40 @@ function login(email,password){
     return {};
   })
 }
+
+function authenticateAuthToken(authToken){
+  return fetch(`${domainName}/users/me`
+    ,{
+      method:'GET',
+      headers:{
+        'x-auth':authToken
+      }
+    }
+  ).then(res=>{
+      return res
+    }).catch(err=>{
+      console.log('Failed to authenticate')
+      console.log(err)
+      return{}
+  })
+}
+
+function logout(authToken){
+  return fetch(`${domainName}/logout`
+    ,{
+      method: 'DELETE',
+      headers:{
+        'x-auth':authToken
+      }
+    }
+  ).then(res=>{
+      return res
+    }).catch(err=>{
+      console.log('Failed Logout')
+      console.log(err)
+      return{}
+  })
+}
 function getTodos(authToken){
   console.log(`making request with authToken ${authToken}`)
 
@@ -106,8 +140,10 @@ function signUp(email,password){
 }
 module.exports={
   login,
+  logout,
   signUp,
   getTodos,
   addTodo,
-  deleteTodo
+  deleteTodo,
+  authenticateAuthToken
 }

@@ -79,14 +79,24 @@ function userReducer(state=defaultUserState,action){
     case 'SIGN_UP_ERRORS':
       return{...state,errors:state.errors.concat(action.errors),signedUp:false,isSigningUp:false}
 
+    case 'CHECKING_SESSION':
+      return{...state,isFetching:true,authToken:action.authToken}
     case 'FETCHING_USER':
       return {...state,isFetching:true, email:action.email, password:action.password}
     case 'FETCHING_USER_ERROR':
+    case 'CHECKING_SESSION_ERROR':
       return {...state,isFetching:false,errors: state.errors.concat(action.errors)}
     case 'FETCHED_USER':
+    case 'SESSION_CHECKED_SUCCESS':
     return {...state,authToken:action.authToken,isFetching:false,loggedIn:true,errors:[]}
-    case 'LOGOUT':
-      return defaultUserState
+
+    case 'LOGING_OUT':
+      return {...state,authToken:action.authToken}
+    case 'LOGGED_OUT':
+      return {...state, loggedIn:false,errors:[]}
+    case 'LOGOUT_ERROR':
+      return {...state,loggedIn:true,errors:state.errors.concat(action.errors)}
+
     default:
       return state
   }

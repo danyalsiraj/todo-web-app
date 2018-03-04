@@ -8,28 +8,38 @@ import {Provider} from 'react-redux'
 import store from './Reducer'
 import './App.css';
 import Navbar from './Navbar'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Logout from './Logout'
+import NewSession from './NewSession'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 class App extends Component {
 
   login(){
 
   }
-  render() {
-    let isLoggedIn = store.getState().user.authToken ? true : false
+  renderComponent(Component) {
 
-    console.log(isLoggedIn)
+    return (props) => {
+      let isLoggedIn = store.getState().user.loggedIn
+      console.log("Is logged in:", isLoggedIn)
+      return isLoggedIn ? (
+          <Component {...props}/>
+        ) : (
+         <Redirect to="/"/>
+        )
+    }
+  }
+  render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-
-                <Route path="/AddNewTodo" component={NewTodoForm}/>
-                <Route path="/Home" component={Todolist}/>
-
-                <Route path="/" component={Login}/>
+                <Route path="/AddNewTodo" render={this.renderComponent(NewTodoForm)}/>
+                <Route path="/Home" render={this.renderComponent(Todolist)}/>
+                <Route path="/Logout" component={Logout}/>
                 <Route path="/SignUp" component={SignUp}/>
-            
+                <Route path="/Login" component={Login}/>
+                <Route path="/" component={NewSession}/>
 
           </Switch>
         </BrowserRouter>

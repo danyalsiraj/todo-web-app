@@ -99,9 +99,9 @@ class TodoList extends Component{
       <TodoCard key={todo.id} deleteTodo={this.deleteTodo.bind(this)} {...todo}/>
     ))
     return (
-      <div>
+      <div >
         <Navbar/>
-        <div className="todolist">
+        <div className="todolist app">
           {todos}
         </div>
       </div>

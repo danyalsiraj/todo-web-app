@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
+import StorageClient from './StorageClient'
 
 import {connect} from 'react-redux'
 import api from'./api'
@@ -45,6 +46,7 @@ class Login extends Component{
       .then(response=>{
         if(response.status==200){
           this.props.loggedInSuccess(response.headers.get('X-Auth'))
+          StorageClient.saveAuthToken(response.headers.get('X-Auth'),document.getElementById('rememberMe').checked)
           this.props.history.push('/Home')
         } else {
           this.props.loginDenied(['Wrong username or password'])

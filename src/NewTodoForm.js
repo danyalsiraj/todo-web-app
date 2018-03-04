@@ -60,7 +60,7 @@ class NewTodoForm extends Component{
             <input type="text" className="form-control" id="newTodo" placeholder="Enter New Task"/>
           </div>
           <input type="submit" className="btn btn-primary btn-sm btn-block" value="ADD"/>
-          <Link to="/" className="btn btn-outline-dark btn-sm btn-block">Cancel</Link>
+          <Link to="/home" className="btn btn-outline-dark btn-sm btn-block">Cancel</Link>
         </form>
       </div>
 
