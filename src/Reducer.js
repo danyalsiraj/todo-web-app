@@ -73,7 +73,7 @@ function todoReducer(state=defaultTodo,action){
 function userReducer(state=defaultUserState,action){
   switch(action.type){
     case 'SIGNING_UP':
-      return{...state,isSigningUp:true,email:action.email,password:action.password}
+      return{...state,isSigningUp:true,email:action.email,password:action.password,errors:[]}
     case 'SIGNED_UP':
       return{...state,isSigningUp:false,signedUp:true}
     case 'SIGN_UP_ERRORS':

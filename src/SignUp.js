@@ -34,6 +34,7 @@ function mapDispatchToProps(dispatch){
 }
 }
 class SignUp extends Component{
+
   signUp(e){
     e.preventDefault()
     let email= document.getElementById('email').value
@@ -41,7 +42,7 @@ class SignUp extends Component{
     let passwordCon=document.getElementById('passwordCon').value
 
     this.props.signUp(email,password)
-    if(password==passwordCon){
+    if(password==passwordCon && password.length>=6){
       api.signUp(email,password)
         .then(response=>{
           if(response.status==200){
@@ -54,15 +55,21 @@ class SignUp extends Component{
           }
         })
     }else{
-      this.props.signUpFailed(['PASSWORD_MISMATCH'])
+      if (password.length>=6){
+          this.props.signUpFailed(['PASSWORD_MISMATCH'])
+      }else{
+        this.props.signUpFailed(['PASSWORD_LENGTH'])
+      }
+
     }
   }
-
 
   render(){
     let err=this.props.user.errors[0] || ''
     let emailTaken= err.match(/email.*dup.*key/i) ? true: false
     let passMismatch= err==='PASSWORD_MISMATCH' ? true :false
+    let passLength= err==='PASSWORD_LENGTH' ? true :false
+
     return(
       <form  className="needs-validation" onSubmit={this.signUp.bind(this)} style={{width:'300px', margin: '1em auto'}}>
         <div class="form-group">
@@ -74,11 +81,14 @@ class SignUp extends Component{
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" className={passMismatch ? "form-control is-invalid" : "form-control is-valid"} id="password" placeholder="Enter Password"/>
+          <input type="password" className={passLength ? "form-control is-invalid" : "form-control is-valid"} id="password" placeholder="Enter Password" required/>
+          <div className="invalid-feedback">
+            Password Must be 6 Characters
+          </div>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password Confirmation</label>
-          <input type="password" className={passMismatch ? "form-control is-invalid" : "form-control is-valid"} id="passwordCon" placeholder="Re-Enter Password"/>
+          <input type="password" className={passMismatch ? "form-control is-invalid" : "form-control is-valid"} id="passwordCon" placeholder="Re-Enter Password" required/>
           <div className="invalid-feedback">
             Password Mismatch
           </div>
