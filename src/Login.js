@@ -58,11 +58,11 @@ class Login extends Component{
       <form  onSubmit={this.login.bind(this)} style={{width:'300px', margin: '1em auto'}}>
         <div className="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" value="d1@gmail.com" placeholder="Enter email"/>
+          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
         </div>
         <div className="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" className="form-control" id="password" value="danyal100" placeholder="Password"/>
+          <input type="password" className="form-control" id="password" placeholder="Password"/>
         </div>
         <div className="form-check">
           <input type="checkbox" className="form-check-input" id="rememberMe"/>
