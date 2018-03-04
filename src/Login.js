@@ -29,6 +29,11 @@ function mapDispatchToProps(dispatch){
         type:'FETCHING_USER_ERROR',
         errors:errors
       })
+    },
+    resetUser:()=>{
+      dispatch({
+        type:'RESET_USER'
+      })
     }
   }
 }
@@ -36,6 +41,9 @@ function mapDispatchToProps(dispatch){
 
 
 class Login extends Component{
+  componentWillMount(){
+    this.props.resetUser()
+  }
   login(e){
     e.preventDefault()
     let email= document.getElementById('email').value
@@ -54,15 +62,20 @@ class Login extends Component{
       })
   }
   render(){
+
+    let hasError= this.props.user.errors.length>0
     return(
-      <form  onSubmit={this.login.bind(this)} style={{width:'300px', margin: '1em auto'}}>
+      <form  className="needs-validation" onSubmit={this.login.bind(this)} style={{width:'300px', margin: '1em auto'}}>
         <div className="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
+          <input type="email" className={hasError ? "form-control is-invalid" : "form-control is-valid"} id="email" aria-describedby="emailHelp" placeholder="Enter email" required/>
         </div>
         <div className="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" className="form-control" id="password" placeholder="Password"/>
+          <input type="password" className={hasError ? "form-control is-invalid" : "form-control is-valid"} id="password" placeholder="Password"/>
+          <div className="invalid-feedback">
+            Please provide a valid email and Password.
+          </div>
         </div>
         <div className="form-check">
           <input type="checkbox" className="form-check-input" id="rememberMe"/>
@@ -73,8 +86,5 @@ class Login extends Component{
       </form>
     )
   }
-
-
-
 }
 export default connect(mapStatetoProps,mapDispatchToProps)(Login);

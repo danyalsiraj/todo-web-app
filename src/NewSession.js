@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
+import StorageClient from './StorageClient'
 
 import api from'./api'
 
@@ -42,7 +43,7 @@ class NewSession extends Component{
   }
 
   checkAuthToken(){
-    let authToken= window.localStorage.todoAccessToken
+    let authToken= StorageClient.getAuthToken()
     this.props.checkingSession(authToken)
     api.authenticateAuthToken(authToken)
       .then(response=>{
@@ -52,7 +53,7 @@ class NewSession extends Component{
         } else {
           //delete from session storage
           this.props.checkingSessionFailed("failed")
-          window.sessionStorage.removeItem('todoAccessToken')
+          StorageClient.deleteAuthToken()
         }
 
       })

@@ -10,7 +10,11 @@ function deleteAuthToken(){
     window.localStorage.removeItem('todoAccessToken')
     window.sessionStorage.removeItem('todoAccessToken')
 }
+function getAuthToken(){
+  return   window.localStorage.todoAccessToken || window.sessionStorage.todoAccessToken
+}
 module.exports={
   saveAuthToken,
-  deleteAuthToken
+  deleteAuthToken,
+  getAuthToken
 }

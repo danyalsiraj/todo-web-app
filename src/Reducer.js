@@ -97,6 +97,9 @@ function userReducer(state=defaultUserState,action){
     case 'LOGOUT_ERROR':
       return {...state,loggedIn:true,errors:state.errors.concat(action.errors)}
 
+    case 'RESET_USER':
+      return defaultUserState
+
     default:
       return state
   }

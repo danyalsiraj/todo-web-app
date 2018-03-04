@@ -5,6 +5,7 @@ import api from'./api'
 
 function mapStatetoProps(state) {
   return ({
+    user: state.user,
     email: state.email,
     password:state.password,
     passwordConfirmation: state.passwordConfirmation
@@ -47,29 +48,40 @@ class SignUp extends Component{
             this.props.signUpSuccessful()
             this.props.history.push('/')
           }else{
-            this.props.signUpFailed(['unable to signup'])
+            response.json().then(body=>{
+                this.props.signUpFailed([body.errmsg])
+            })
           }
         })
     }else{
-      this.props.signUpFailed(['Passwords do not match'])
+      this.props.signUpFailed(['PASSWORD_MISMATCH'])
     }
   }
 
 
   render(){
+    let err=this.props.user.errors[0] || ''
+    let emailTaken= err.match(/email.*dup.*key/i) ? true: false
+    let passMismatch= err==='PASSWORD_MISMATCH' ? true :false
     return(
-      <form  onSubmit={this.signUp.bind(this)} style={{width:'300px', margin: '1em auto'}}>
+      <form  className="needs-validation" onSubmit={this.signUp.bind(this)} style={{width:'300px', margin: '1em auto'}}>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"/>
+          <input type="email" className={emailTaken ? "form-control is-invalid" : "form-control is-valid"} id="email" aria-describedby="emailHelp" placeholder="Enter Email"/>
+          <div className="invalid-feedback">
+            Email already in use
+          </div>
         </div>
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password"/>
+          <input type="password" className={passMismatch ? "form-control is-invalid" : "form-control is-valid"} id="password" placeholder="Enter Password"/>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="passwordCon" placeholder="Password"/>
+          <label for="exampleInputPassword1">Password Confirmation</label>
+          <input type="password" className={passMismatch ? "form-control is-invalid" : "form-control is-valid"} id="passwordCon" placeholder="Re-Enter Password"/>
+          <div className="invalid-feedback">
+            Password Mismatch
+          </div>
         </div>
         <input type="submit" class="btn btn-primary btn-sm btn-block" value="Sign Up !!!"/>
       </form>
